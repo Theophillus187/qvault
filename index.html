@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QVault — Student Resource Library</title>
+<style>
+:root{--navy:#101b35;--blue:#4169e1;--cyan:#20b8b2;--ink:#172033;--muted:#68738a;--line:#e8ecf3;--bg:#f6f8fc;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 15px;font-weight:650}
+.primary{background:var(--blue);color:white}.soft{background:#edf1ff;color:#2949b7}.ghost{background:white;border:1px solid var(--line);color:var(--ink)}
+header{height:72px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(5vw,20px);position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:850;letter-spacing:-.7px;color:var(--navy)}.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:grid;place-items:center;color:white;font-weight:900}
+nav{display:flex;gap:8px;align-items:center}nav button{background:transparent;color:var(--muted)}nav button.active{background:#edf1ff;color:#2949b7}
+.wrap{max-width:1160px;margin:auto;padding:34px 22px 70px}.hero{background:linear-gradient(120deg,#111d3b,#203b70 65%,#147e86);border-radius:24px;padding:42px;color:white;display:grid;grid-template-columns:1.4fr .6fr;gap:25px;align-items:center;overflow:hidden}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:#a9d9f2;font-weight:800}.hero h1{font-size:clamp(30px,4vw,48px);line-height:1.08;letter-spacing:-1.5px;margin:12px 0}.hero p{color:#d6e0f4;max-width:570px}.hero .search{display:flex;background:white;border-radius:12px;padding:6px;margin-top:22px;max-width:600px}.search input{border:0;outline:0;flex:1;min-width:0;padding:9px 12px;color:var(--ink)}.hero-art{font-size:115px;text-align:center;filter:drop-shadow(0 15px 15px #07132b66)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0 34px}.stat,.panel,.paper,.plan{background:white;border:1px solid var(--line);border-radius:16px;padding:18px}.stat strong{display:block;font-size:23px;color:var(--navy)}.stat span,.muted{color:var(--muted);font-size:13px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:28px 0 15px}.section-head h2{margin:0;font-size:22px;letter-spacing:-.5px}.filters{display:flex;gap:9px;flex-wrap:wrap}.filters select,.field{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:white;color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.paper{transition:.18s}.paper:hover{transform:translateY(-2px);box-shadow:0 10px 25px #1b2b4a0d}.paper-top{display:flex;justify-content:space-between;align-items:center}.tag{font-size:11px;font-weight:750;color:#3155c4;background:#edf1ff;border-radius:20px;padding:5px 9px}.pdf{width:42px;height:46px;background:#fff0ef;color:#d74a43;border-radius:10px;display:grid;place-items:center;font-weight:850}.paper h3{font-size:16px;margin:14px 0 5px}.paper p{font-size:13px;color:var(--muted);margin:0 0 15px}.paper-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:13px}.paper-foot small{color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel h3{margin:0 0 8px}.panel p{color:var(--muted);font-size:14px}.plans{display:grid;grid-template-columns:1fr 1fr;gap:14px}.price{font-size:30px;font-weight:850;color:var(--navy)}.plan.featured{border:2px solid var(--blue)}.plan ul{padding-left:19px;color:var(--muted);font-size:14px;line-height:2}
+footer{border-top:1px solid var(--line);padding:25px;text-align:center;color:var(--muted);font-size:12px}
+.view{display:none}.view.active{display:block}.modal-bg{position:fixed;inset:0;background:#101b3588;display:none;align-items:center;justify-content:center;padding:18px;z-index:10}.modal-bg.show{display:flex}.modal{background:white;border-radius:18px;padding:24px;width:min(460px,100%);box-shadow:0 20px 70px #0003}.modal h2{margin:0 0 6px}.modal .field{width:100%;margin:7px 0 12px}.modal label{font-size:13px;font-weight:700}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.notice{background:#fff8e8;border:1px solid #f5e2b4;border-radius:12px;padding:12px;color:#775718;font-size:13px;margin:14px 0}.success{background:#eaf8f2;color:#176b4a;padding:11px;border-radius:10px;font-size:13px;margin:10px 0}.admin-row{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding:13px 0}.admin-row:last-child{border:0}.hidden{display:none!important}
+@media(max-width:760px){header{padding:0 16px}nav button{padding:8px;font-size:12px}.hero{grid-template-columns:1fr;padding:28px}.hero-art{display:none}.grid{grid-template-columns:1fr 1fr}.two,.plans{grid-template-columns:1fr}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:19px}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.wrap{padding:22px 14px 50px}.brand{font-size:18px}nav button[data-view="admin"]{display:none}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{display:none}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">Q</div>QVault</div>
+ <nav>
+  <button class="active" data-view="home">Explore</button><button data-view="submit">Contribute</button><button data-view="premium">Premium</button><button data-view="admin" id="adminNav">Admin</button>
+ </nav>
+</header>
+<main class="wrap">
+<section id="home" class="view active">
+ <div class="hero"><div><div class="eyebrow">Your study resource library</div><h1>Study smarter.<br>Find what you need.</h1><p>Discover past exam papers, study guides and learning material shared by a student community.</p><div class="search"><input id="search" placeholder="Search a subject, module or paper…"><button class="primary" onclick="renderPapers()">Search</button></div></div><div class="hero-art">📚</div></div>
+ <div class="stats"><div class="stat"><strong id="paperCount">6</strong><span>Resource examples</span></div><div class="stat"><strong>PDF</strong><span>Easy-to-access documents</span></div><div class="stat"><strong>Student-led</strong><span>Community contributions</span></div></div>
+ <div class="section-head"><div><div class="eyebrow" style="color:#5570bd">Resource library</div><h2>Browse study material</h2></div><div class="filters"><select id="facultyFilter" onchange="renderPapers()"><option value="">All faculties</option><option>ICT</option><option>Business</option><option>Engineering</option></select><select id="typeFilter" onchange="renderPapers()"><option value="">All types</option><option>Past paper</option><option>Study notes</option><option>Study guide</option></select></div></div>
+ <div class="grid" id="paperGrid"></div>
+ <div class="notice">Official Notice: Study Smart - You can get that 100%</div>
+</section>
+<section id="submit" class="view">
+ <div class="section-head"><div><div class="eyebrow" style="color:#5570bd">Grow the library</div><h2>Contribute a resource</h2><p class="muted">Send your document for review. It will only appear after approval.</p></div></div>
+ <div class="panel" style="max-width:680px"><form id="submitForm">
+ <label>Your name</label><input class="field" required name="name" placeholder="Full name">
+ <label>Email address</label><input class="field" required type="email" name="email" placeholder="you@example.com">
+ <label>Institution / campus</label><input class="field" required name="institution" placeholder="e.g. TUT">
+ <label>Module / subject</label><input class="field" required name="module" placeholder="e.g. Programming">
+ <label>Resource type</label><select class="field" name="type"><option>Past paper</option><option>Study notes</option><option>Study guide</option></select>
+ <label>PDF document</label><input class="field" required type="file" name="pdf" accept="application/pdf">
+ <label style="display:flex;gap:9px;align-items:flex-start;font-weight:500"><input required type="checkbox"> I have permission to share this document and it does not contain private or restricted material.</label>
+ <button class="primary" style="margin-top:17px">Submit for review</button></form><div id="submitMessage"></div></div>
+</section>
+<section id="premium" class="view">
+ <div class="section-head"><div><div class="eyebrow" style="color:#5570bd">Support the platform</div><h2>Choose your experience</h2><p class="muted">Keep essential learning resources accessible.</p></div></div>
+ <div class="plans"><div class="plan"><span class="tag">FREE</span><h3>Community</h3><div class="price">R0</div><ul><li>Browse the resource library</li><li>Download with occasional adverts</li><li>Submit resources for review</li></ul><button class="ghost" onclick="alert('You are viewing the free plan.')">Current free experience</button></div>
+ <div class="plan featured"><span class="tag">AD-FREE</span><h3>QVault Plus</h3><div class="price">Coming soon</div><ul><li>No download adverts</li><li>Support platform hosting costs</li><li>Premium account badge</li></ul><button class="primary" onclick="alert('Payments are not connected in this prototype.')">Join the waitlist</button></div></div>
+ <p class="muted">Premium pricing and payment processing will be configured before launch. Never charge users until the service and terms are clear.</p>
+</section>
+<section id="admin" class="view">
+ <div class="section-head"><div><div class="eyebrow" style="color:#5570bd">Private workspace</div><h2>Admin review dashboard</h2><p class="muted">Review submissions before anything is published.</p></div><button class="soft" onclick="adminLogin()">Admin sign in</button></div>
+ <div class="notice">Prototype only: the admin gate is a visual demo, not secure authentication. Do not publish sensitive documents here.</div>
+ <div class="panel"><h3>Pending submissions <span class="tag" id="pendingCount">0</span></h3><div id="pendingList" class="muted">No submissions yet.</div></div>
+</section>
+</main>
+<footer>© 2026 QVault · Independent student resource project · Not affiliated with any university.</footer>
+
+<div class="modal-bg" id="adModal"><div class="modal"><span class="tag">SPONSORED</span><h2>Support free study resources</h2><p class="muted"></p><div style="background:#f2f5fb;border-radius:12px;padding:25px;text-align:center;margin:15px 0"></div><div class="modal-actions"><button class="primary" onclick="finishDownload()">Continue to download</button></div></div></div>
+<script>
+const papers=[
+ {id:1,title:"Principles of Programming exam Final 2021",module:"Programming",faculty:"ICT",type:"Past paper",year:"2021",description:"PPAF05D example final paper C",file:"PPAF05D example final paper C.pdf"},
+ {id:2,title:"PPAF05D Exam Past paper 2025",module:"Principles of Programming",faculty:"ICT",type:"Past Paper",year:"2025",description:"ppaExam Past paper 2025",file:"ppaExam Past paper 2025.pdf"},
+ {id:3,title:"BFSF15D ST1 2026 Paper",module:"Business Fundamentals",faculty:"ICT",type:"Past paper",year:"2026",description:"BFS ST1 2026",file:"BFS ST1 2026.pdf"},
+ {id:4,title:"BFSF15D ST2 2026 Paper",module:"Business Fundamentals",faculty:"ICT",type:"Past Paper",year:"2026",description:"BFS ST2 2026",file:"BFS ST2 2026.pdf"},
+ {id:5,title:"BCMF15D ST1 2026 Paper",module:"Business Cost Management",faculty:"ICT",type:"Past Paper",year:"2026",description:"BCM ST1 2026",file:"BCM ST1 2026.pdf"},
+ {id:6,title:"BCMF15D ST2 2026 Paper",module:"Business Cost Management",faculty:"ICT",type:"Past paper",year:"2026",description:"BCM ST2 2026",file:"BCM ST2 2026.pdf"}
+];
+let submissions=JSON.parse(localStorage.getItem("qvaultSubmissions")||"[]"), admin=false, downloadTarget=null;
+function renderPapers(){const q=document.getElementById("search").value.toLowerCase(),f=document.getElementById("facultyFilter").value,t=document.getElementById("typeFilter").value;const list=papers.filter(p=>(!q||(p.title+" "+p.module).toLowerCase().includes(q))&&(!f||p.faculty===f)&&(!t||p.type===t));document.getElementById("paperCount").textContent=list.length;document.getElementById("paperGrid").innerHTML=list.map(p=>`<article class="paper"><div class="paper-top"><span class="tag">${p.faculty} · ${p.type}</span><div class="pdf">PDF</div></div><h3>${p.title}</h3><p>${p.description}</p><div class="paper-foot"><small>${p.year} · ${p.module}</small><button class="soft" onclick="downloadPaper(${p.id})">Download</button></div></article>`).join("")||'<div class="panel">No resources match your search.</div>'}
+function showView(v){document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===v));document.querySelectorAll("nav [data-view]").forEach(x=>x.classList.toggle("active",x.dataset.view===v));if(v==="admin")renderAdmin()}
+document.querySelectorAll("nav [data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+document.getElementById("search").addEventListener("input",renderPapers);
+function downloadPaper(id){downloadTarget=id;document.getElementById("adModal").classList.add("show")}
+function finishDownload(){document.getElementById("adModal").classList.remove("show");const p=papers.find(x=>x.id===downloadTarget);if(p&&p.file){const a=document.createElement("a");a.href=p.file;a.download=p.file;document.body.appendChild(a);a.click();document.body.removeChild(a)}else{alert("Demo download: "+p.title+"\nConnect approved PDF storage to enable real downloads.")}}
+document.getElementById("submitForm").addEventListener("submit",e=>{e.preventDefault();const fd=new FormData(e.target),file=fd.get("pdf");if(file.type!=="application/pdf"){alert("Please upload a PDF.");return}submissions.push({id:Date.now(),name:fd.get("name"),email:fd.get("email"),institution:fd.get("institution"),module:fd.get("module"),type:fd.get("type"),file:file.name,status:"Pending"});localStorage.setItem("qvaultSubmissions",JSON.stringify(submissions));e.target.reset();document.getElementById("submitMessage").innerHTML='<div class="success">Submission received in this demo. It is awaiting administrator review.</div>';renderAdmin()});
+function adminLogin(){const code=prompt("Demo admin passcode (prototype only):");if(code==="qvault-demo"){admin=true;renderAdmin();alert("Demo admin view unlocked. This is not secure authentication.")}else if(code!==null)alert("Incorrect demo passcode.")}
+function renderAdmin(){document.getElementById("pendingCount").textContent=submissions.filter(s=>s.status==="Pending").length;if(!admin){document.getElementById("pendingList").innerHTML="Sign in as admin to review submissions.";return}document.getElementById("pendingList").innerHTML=submissions.length?submissions.map(s=>`<div class="admin-row"><div><strong>${s.module}</strong><div class="muted">${s.name} · ${s.institution} · ${s.file} · ${s.status}</div></div>${s.status==="Pending"?`<div><button class="soft" onclick="review(${s.id},'Approved')">Approve</button> <button class="ghost" onclick="review(${s.id},'Rejected')">Reject</button></div>`:""}</div>`).join(""):"No submissions yet."}
+function review(id,status){submissions=submissions.map(s=>s.id===id?{...s,status}:s);localStorage.setItem("qvaultSubmissions",JSON.stringify(submissions));renderAdmin()}
+renderPapers();
+</script>
+</body></html>
